@@ -104,10 +104,6 @@ int ammo = 0;
 
 void setup() {
   EIFR = (1 << INTF1) | (1 << INTF0);
-  
-  EEPROM.update(eepromHighscores[0], 0);
-  EEPROM.update(eepromHighscores[1], 0);
-  EEPROM.update(eepromHighscores[2], 0);
 
   pinMode(pinX, INPUT);
   pinMode(pinY, INPUT);

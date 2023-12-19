@@ -5,6 +5,10 @@ Repository for the first project - Matrix game (Bomberman) - including requireme
 
 ## [Matrix Game - Aspiring Bomberman](#ab) <a name="ab"></a>
 
+- ### **_Credits_**
+
+  "EIFR = (1 << INTF1) | (1 << INTF0);" - directly from https://forum.arduino.cc/t/left-over-variables-on-reset-or-strange-interrupt-behaviour/328693/9 - interrupts acted wrong/weird before
+
 - ### **_Description_**
 
   Bomberman is a classic when it comes to video games. This is my implementation of it. Designed to be simple and easy, there is not much to it but I tried to give the feeling of "playing".
@@ -25,11 +29,10 @@ Repository for the first project - Matrix game (Bomberman) - including requireme
   2. Highscores
   3. Settings </br>
 
-
-      - Difficulty </br>
-      - LCD brightness </br>
-      - Matrix brightness </br>
-      - Back to menu
+     - Difficulty </br>
+     - LCD brightness </br>
+     - Matrix brightness </br>
+     - Back to menu
 
   4. About
   5. How to play
