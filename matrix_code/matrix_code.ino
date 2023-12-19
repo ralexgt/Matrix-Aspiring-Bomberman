@@ -33,7 +33,7 @@ int intensity = 0;
 byte intensityMapped = 0; 
 
 LedControl lc = LedControl(dinPin, clockPin, loadPin, 1); 
-byte matrixBrightness = EEPROM.read(eepromLcdBrightness);
+byte matrixBrightness = EEPROM.read(eepromMatrixBrightness);
 byte matrix[matrixSize][matrixSize] = {
   {1, 0, 0, 0, 0, 0, 0, 0},
   {0, 0, 0, 0, 0, 0, 0, 0},
@@ -126,7 +126,7 @@ void setup() {
   lcd.createChar(0, bombChar);
   bootingScreen();
 
-  attachInterrupt(digitalPinToInterrupt(pinBomb), placeBombInterrupt, FALLING);
+  attachInterrupt(digitalPinToInterrupt(pinBomb), placeBombInterrupt, RISING);
 }
 
 void loop() {
@@ -292,7 +292,7 @@ void randomizeWalls(){
     ammo = -1;
   }
   if(EEPROM.read(eepromDifficulty) == 2){
-    maxWalls =26;
+    maxWalls = 26;
     ammo = 15;
   }
   if(EEPROM.read(eepromDifficulty) == 3){
@@ -388,8 +388,12 @@ void placeBombInterrupt(){
   }
   static unsigned long bombInterruptTime = 0;
   bombInterruptTime = micros();
+  // if the ammo changes, it won't subtract again in the same push of the button
+  int ammoTemp = ammo;
   if(bombInterruptTime - lastBombInterruptTime > buttonsDebounce * 1000 && gameStarted == 1){
-    ammo = ammo - 1;
+    if(ammoTemp == ammo){
+      ammo = ammo -1;
+    }
     // if the value goes beyond matrix borders do not destroy walls on the other side
     if(playerY + 1 < matrixSize && matrix[playerX][playerY + 1] == 2){
       matrix[playerX][playerY + 1] = 0; 
@@ -680,11 +684,11 @@ void displayHowTo(){
   // Serial.println("ode. However the walls 1 space near you will."); 
   // Serial.println("There are 3 difficulties you can choose from:");
   // Serial.print(" - easy: time limit - 5 minutes;");
-  // Serial.println("bombs per level - infinite; ~16 walls per level");
+  // Serial.println("bombs per level - infinite; max 18 walls per level");
   // Serial.print(" - medium: time limit - 3 minutes;");
-  // Serial.println(" bombs per level - 15 + 1 for each level cleared; ~25 walls");
+  // Serial.println(" bombs per level - 15 for each level cleared; max 26 walls");
   // Serial.print(" - hard: time limit - 1 minute; ");
-  // Serial.println("bombs per level - walls/2; ~32 walls");
+  // Serial.println("bombs per level - walls/2; max 34 walls");
   // Serial.println("Points: - wall destroyed = +1p * difficulty");
   // Serial.println("	- level cleared = +5p ");
   // Serial.print("Highscores are displayed in the");
